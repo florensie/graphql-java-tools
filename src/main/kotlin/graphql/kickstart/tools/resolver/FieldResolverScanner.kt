@@ -72,7 +72,7 @@ internal class FieldResolverScanner(val options: SchemaParserOptions) {
         }
     }
 
-    private fun findResolverMethod(field: FieldDefinition, search: Search): java.lang.reflect.Method? {
+    private fun findResolverMethod(field: FieldDefinition, search: Search): Method? {
         val methods = getAllMethods(search.type)
         val argumentCount = field.inputValueDefinitions.size + if (search.requiredFirstParameterType != null) 1 else 0
         val name = field.name
@@ -113,10 +113,11 @@ internal class FieldResolverScanner(val options: SchemaParserOptions) {
 
     private fun isBoolean(type: GraphQLLangType) = type.unwrap().let { it is TypeName && it.name == Scalars.GraphQLBoolean.name }
 
-    private fun verifyMethodArguments(method: java.lang.reflect.Method, requiredCount: Int, search: Search): Boolean {
+    private fun verifyMethodArguments(method: Method, requiredCount: Int, search: Search): Boolean {
         val appropriateFirstParameter = if (search.requiredFirstParameterType != null) {
             method.genericParameterTypes.firstOrNull()?.let {
-                it == search.requiredFirstParameterType || method.declaringClass.typeParameters.contains(it)
+                it == search.requiredFirstParameterType || (it is Class<*> && it.unwrap().isAssignableFrom(search.requiredFirstParameterType))
+                        || method.declaringClass.typeParameters.contains(it)
             } ?: false
         } else {
             true
@@ -130,7 +131,7 @@ internal class FieldResolverScanner(val options: SchemaParserOptions) {
         return correctParameterCount && appropriateFirstParameter
     }
 
-    private fun getMethodParameterCount(method: java.lang.reflect.Method): Int {
+    private fun getMethodParameterCount(method: Method): Int {
         return try {
             method.kotlinFunction?.valueParameters?.size ?: method.parameterCount
         } catch (e: InternalError) {
@@ -138,7 +139,7 @@ internal class FieldResolverScanner(val options: SchemaParserOptions) {
         }
     }
 
-    private fun getMethodLastParameter(method: java.lang.reflect.Method): Type? {
+    private fun getMethodLastParameter(method: Method): Type? {
         return try {
             method.kotlinFunction?.valueParameters?.lastOrNull()?.type?.javaType
                 ?: method.parameterTypes.lastOrNull()
