@@ -368,7 +368,7 @@
         <repository>
             <id>maven</id>
             <name>graphql-java-kickstart-graphql-java-tools</name>
-            <url>sftp://florens.be:22/repo</url>
+            <url>sftp://maven@florens.be:22/repo</url>
         </repository>
     </distributionManagement>
 </project>
