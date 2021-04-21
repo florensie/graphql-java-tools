@@ -22,7 +22,6 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <useReleaseProfile>false</useReleaseProfile>
-        <project.scm.id>github</project.scm.id>
     </properties>
 
     <dependencyManagement>
@@ -374,10 +373,4 @@
             <url>sftp://florens.be:22/repo</url>
         </repository>
     </distributionManagement>
-    <scm>
-        <connection>scm:git:https://github.com/florensie/graphql-java-tools.git</connection>
-        <developerConnection>scm:git:https://github.com/florensie/graphql-java-tools.git</developerConnection>
-        <url>https://github.com/florensie/graphql-java-tools</url>
-        <tag>HEAD</tag>
-    </scm>
 </project>
