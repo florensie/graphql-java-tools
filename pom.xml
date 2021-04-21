@@ -4,7 +4,7 @@
 
     <groupId>be.florens</groupId>
     <artifactId>graphql-java-tools</artifactId>
-    <version>11.0.1-SNAPSHOT+florens</version>
+    <version>11.0.1+florens</version>
     <packaging>jar</packaging>
 
     <name>GraphQL Java Tools</name>
