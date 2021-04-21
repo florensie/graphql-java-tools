@@ -20,18 +20,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Setup Bintray
+      - name: Setup Java
         uses: actions/setup-java@v2
         with:
           java-version: '8'
           distribution: 'adopt'
-          server-id: bintray
-          server-username: BINTRAY_USER
-          server-password: BINTRAY_PASS
+          server-id: maven
+          server-username: MAVEN_USER
+          server-password: MAVEN_PASS
       - name: Publish release
         run: bash github-build.sh
         env:
-          BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
-          BINTRAY_PASS: ${{ secrets.BINTRAY_PASSWORD }}
-          MAVEN_USERNAME: ${{ secrets.OSS_USER_TOKEN_KEY }}
-          MAVEN_PASSWORD: ${{ secrets.OSS_USER_TOKEN_PASS }}
+          MAVEN_USER: ${{ secrets.MAVEN_USER }}
+          MAVEN_PASS: ${{ secrets.MAVEN_PASS }}
